@@ -1,0 +1,7 @@
+## Interface: 70100
+## Title: WoWProgressLink
+## Notes: Get WoWProgress Link for LFG tool group candidates
+## Author: Shadokugel
+## Version: 1.0
+
+WoWProgressLink.lua

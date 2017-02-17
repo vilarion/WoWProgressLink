@@ -16,7 +16,6 @@ local function playerLink(self, button, down)
     if button == "LeftButton" then
         local name = C_LFGList.GetApplicantMemberInfo(self:GetParent().applicantID, self.memberIdx)
         local link = buildLink(name)
-        print(name, link)
 			  
 			  local editBox = ChatEdit_ChooseBoxForSend()
         ChatEdit_ActivateChat(editBox)

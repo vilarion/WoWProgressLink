@@ -12,19 +12,38 @@ local function buildLink(name)
     return "https://www.wowprogress.com/character/" .. region .. "/" .. server .. "/" .. char
 end
 
-local function playerLink(self, button, down)
+local function pasteLink(name)
+    local link = buildLink(name)
+
+	  local editBox = ChatEdit_ChooseBoxForSend()
+    ChatEdit_ActivateChat(editBox)
+    editBox:SetText(link);
+    editBox:HighlightText();
+end
+
+local function applicantLink(self, button, down)
     if button == "LeftButton" then
-        local name = C_LFGList.GetApplicantMemberInfo(self:GetParent().applicantID, self.memberIdx)
-        local link = buildLink(name)
+        local applicant = C_LFGList.GetApplicantMemberInfo(self:GetParent().applicantID, self.memberIdx)
 			  
-			  local editBox = ChatEdit_ChooseBoxForSend()
-        ChatEdit_ActivateChat(editBox)
-        editBox:SetText(link);
-        editBox:HighlightText();
+			  pasteLink(applicant)
+    end
+end
+
+local function leaderLink(self, button, down)
+    if button == "LeftButton" then
+        local results = {C_LFGList.GetSearchResultInfo(self.resultID)}
+        local leader = results[13]
+			  
+			  pasteLink(leader)
     end
 end
 
 for _, line in pairs(LFGListFrame.ApplicationViewer.ScrollFrame.buttons) do
 	  line.Member1:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	  line.Member1:HookScript("OnDoubleClick", playerLink)
+	  line.Member1:HookScript("OnDoubleClick", applicantLink)
+end
+
+for _, line in pairs(LFGListFrame.SearchPanel.ScrollFrame.buttons) do
+	  line:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+	  line:HookScript("OnDoubleClick", leaderLink)
 end

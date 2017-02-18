@@ -6,6 +6,11 @@ end
 
 local function buildLink(name)
     local char, server = string.match(name, "(.-)-(.*)")
+    if not char then
+        char = name
+        server = GetRealmName()
+    end
+    
     server = string.gsub(server, "(%l)(%u)", "%1-%2")
     server = string.gsub(server, "'", "-")
     local region = getRegion()

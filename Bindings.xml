@@ -1,5 +1,5 @@
 <Bindings>
-    <Binding name="WOWPROGRESSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-P">
+    <Binding name="WOWPROGRESSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK">
         WoWProgressLink()
     </Binding>
 </Bindings>

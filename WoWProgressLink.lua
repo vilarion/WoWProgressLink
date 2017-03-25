@@ -7,15 +7,28 @@ local function getRegion()
     return regionLabel[regionId]
 end
 
+local function specialRealmTranslation(server)
+    local translation = {}
+    translation["ChamberofAspects"] = "chamber-of-aspects"
+    
+    return translation[server]
+end
+
 local function buildLink(name)
     local char, server = string.match(name, "(.-)-(.*)")
     if not char then
         char = name
         server = GetRealmName()
     end
+
+    if specialRealmTranslation(server) then
+        server = specialRealmTranslation(server)
+    else
+        server = string.gsub(server, "(%l)(%u)", "%1-%2")
+        server = string.gsub(server, "'", "-")
+        server = string.gsub(server, " ", "-")
+    end
     
-    server = string.gsub(server, "(%l)(%u)", "%1-%2")
-    server = string.gsub(server, "'", "-")
     local region = getRegion()
     return "https://www.wowprogress.com/character/" .. region .. "/" .. server .. "/" .. char
 end

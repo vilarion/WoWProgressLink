@@ -73,12 +73,24 @@ function WoWProgressLink()
     end     
 end
 
-for _, line in pairs(LFGListFrame.ApplicationViewer.ScrollFrame.buttons) do
-    line.Member1:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-    line.Member1:HookScript("OnDoubleClick", applicantLink)
+local function setHook(button, hook)
+    if type(button) == "table" and button.RegisterForClicks and button.HookScript and not button.isWoWProgressHookSet then
+        button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+        button:HookScript("OnDoubleClick", hook)
+        button.isWoWProgressHookSet = true
+    end
 end
 
-for _, line in pairs(LFGListFrame.SearchPanel.ScrollFrame.buttons) do
-    line:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-    line:HookScript("OnDoubleClick", leaderLink)
+local oldUpdateApplicantMember = LFGListApplicationViewer_UpdateApplicantMember
+LFGListApplicationViewer_UpdateApplicantMember = function(...)
+    local member = ...
+    setHook(member, applicantLink)
+    return oldUpdateApplicantMember(...)
+end
+
+local oldLFGListSearchEntry_Update = LFGListSearchEntry_Update
+LFGListSearchEntry_Update = function(...)
+    local button = ...
+    setHook(button, leaderLink)
+    return oldLFGListSearchEntry_Update(...)
 end

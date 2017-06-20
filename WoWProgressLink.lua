@@ -7,12 +7,7 @@ local function getRegion()
     return regionLabel[regionId]
 end
 
-local function specialRealmTranslation(server)
-    local translation = {}
-    translation["ChamberofAspects"] = "chamber-of-aspects"
-    
-    return translation[server]
-end
+local realmTranslation = WoWProgressLink.translation
 
 local function buildLink(name)
     local char, server = string.match(name, "(.-)-(.*)")
@@ -21,8 +16,8 @@ local function buildLink(name)
         server = GetRealmName()
     end
 
-    if specialRealmTranslation(server) then
-        server = specialRealmTranslation(server)
+    if realmTranslation[server] then
+        server = realmTranslation[server]
     else
         server = string.gsub(server, "(%l)(%u)", "%1-%2")
         server = string.gsub(server, "'", "-")

@@ -2,4 +2,7 @@
     <Binding name="WOWPROGRESSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-P">
         WoWProgressLink()
     </Binding>
+    <Binding name="RAIDERIOLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-R">
+        RaiderIOLink()
+    </Binding>
 </Bindings>

@@ -1,3 +1,4 @@
+local _, addonData = ...
 local translation = {}
 
 translation["Kazzak"] = "Kazzak"
@@ -285,5 +286,4 @@ translation["ТкачСмерти"] = "Ткач-Смерти"
 translation["ЧерныйШрам"] = "Черный-Шрам"
 translation["Ясеневыйлес"] = "Ясеневый-лес"
 
-WoWProgressLink = {}
-WoWProgressLink.translation = translation
+addonData.translation = translation

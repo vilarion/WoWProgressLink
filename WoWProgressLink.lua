@@ -1,4 +1,6 @@
-BINDING_CATEGORY_WOWPROGRESSLINK = "WoWProgressLink"
+local addonName, addonData = ...
+
+BINDING_CATEGORY_WOWPROGRESSLINK = addonName
 BINDING_NAME_WOWPROGRESSLINK = "WoWProgress link (mouseover)"
 BINDING_NAME_RAIDERIOLINK = "Raider.IO link (mouseover)"
 
@@ -8,7 +10,7 @@ local function getRegion()
     return regionLabel[regionId]
 end
 
-local realmTranslation = WoWProgressLink.translation
+local realmTranslation = addonData.translation
 
 local function buildLink(name, isAlternativeLink)
     local char, server = string.match(name, "(.-)-(.*)")
@@ -73,7 +75,7 @@ function WoWProgressLink()
             pasteLink(name)
         end    
     else
-        print("WoWProgressLink: Unit is not a player or not in range.")
+        print(addonName .. ": Unit is not a player or not in range.")
     end     
 end
 
@@ -87,7 +89,7 @@ function RaiderIOLink()
             pasteLink(name, true)
         end    
     else
-        print("WoWProgressLink: Unit is not a player or not in range.")
+        print(addonName .. ": Unit is not a player or not in range.")
     end     
 end
 

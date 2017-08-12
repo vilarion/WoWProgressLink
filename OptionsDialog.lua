@@ -4,6 +4,8 @@ local linkDisplayMode = "linkDisplayMode"
 local popupMode = "popup"
 local chatMode = "chat"
 
+WOWPROGRESSLINK_CONFIG = {linkDisplayMode = popupMode}
+
 function addonData:isChatMode()
     return WOWPROGRESSLINK_CONFIG.linkDisplayMode == chatMode
 end

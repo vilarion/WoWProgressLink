@@ -42,10 +42,14 @@ end
 local function pasteLink(name, isAlternativeLink)
     local link = buildLink(name, isAlternativeLink)
 
-    local editBox = ChatEdit_ChooseBoxForSend()
-    ChatEdit_ActivateChat(editBox)
-    editBox:SetText(link);
-    editBox:HighlightText();
+    if addonData:isChatMode() then
+        local editBox = ChatEdit_ChooseBoxForSend()
+        ChatEdit_ActivateChat(editBox)
+        editBox:SetText(link)
+        editBox:HighlightText()
+    else
+        StaticPopup_Show("WOWPROGRESSLINK", nil, nil, link)
+    end
 end
 
 local function applicantLink(self, button, down)

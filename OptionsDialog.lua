@@ -53,6 +53,6 @@ function configPanel:okay()
 end
 
 function configPanel:default()
-    buttonChat:SetChecked(true)
-    buttonPopup:SetChecked(false)
+    buttonChat:SetChecked(false)
+    buttonPopup:SetChecked(true)
 end

@@ -16,7 +16,7 @@ local function buildLink(name, isAlternativeLink)
     local char, server = string.match(name, "(.-)-(.*)")
     if not char then
         char = name
-        server = GetRealmName()
+        _, server = UnitFullName("player")
     end
 
     if realmTranslation[server] then
@@ -71,7 +71,7 @@ end
 
 function WoWProgressLink()
     if UnitIsPlayer("mouseover") then
-        local name, realm = UnitName("mouseover")
+        local name, realm = UnitFullName("mouseover")
         
         if realm then
             pasteLink(name .. "-" .. realm)
@@ -85,7 +85,7 @@ end
 
 function RaiderIOLink()
     if UnitIsPlayer("mouseover") then
-        local name, realm = UnitName("mouseover")
+        local name, realm = UnitFullName("mouseover")
         
         if realm then
             pasteLink(name .. "-" .. realm, true)

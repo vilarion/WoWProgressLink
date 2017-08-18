@@ -1,8 +1,10 @@
 local addonName, addonData = ...
 
 BINDING_CATEGORY_WOWPROGRESSLINK = addonName
-BINDING_NAME_WOWPROGRESSLINK = "WoWProgress link (mouseover)"
+BINDING_NAME_ARMORYLINK = "Armory link (mouseover)"
 BINDING_NAME_RAIDERIOLINK = "Raider.IO link (mouseover)"
+BINDING_NAME_WOWPROGRESSLINK = "WoWProgress link (mouseover)"
+BINDING_NAME_WARCRAFTLOGSLINK = "Warcraft Logs link (mouseover)"
 
 local function getRegion()
     local regionLabel = {"us", "kr", "eu", "tw", "cn"}
@@ -10,37 +12,25 @@ local function getRegion()
     return regionLabel[regionId]
 end
 
-local realmTranslation = addonData.translation
+local sites = addonData.sites
 
-local function buildLink(name, isAlternativeLink)
+local function buildLink(name, site)
     local char, server = string.match(name, "(.-)-(.*)")
     if not char then
         char = name
         _, server = UnitFullName("player")
     end
 
-    if realmTranslation[server] then
-        server = realmTranslation[server]
-    else
-        server = string.gsub(server, "(%l)(%u)", "%1-%2")
-        server = string.gsub(server, "'", "-")
-        server = string.gsub(server, " ", "-")
-    end
-    
     local region = getRegion()
-    local prefix
+    local prefix = site.urlPrefix
+    local middle = site.urlMiddle
+    server = site.translation(server)
     
-    if isAlternativeLink then
-        prefix = "https://raider.io/characters/"
-    else
-        prefix = "https://www.wowprogress.com/character/"
-    end
-    
-    return prefix .. region .. "/" .. server .. "/" .. char
+    return prefix .. region .. middle .. "/" .. server .. "/" .. char
 end
 
-local function pasteLink(name, isAlternativeLink)
-    local link = buildLink(name, isAlternativeLink)
+local function pasteLink(name, site)
+    local link = buildLink(name, site)
 
     if addonData:isChatMode() then
         local editBox = ChatEdit_ChooseBoxForSend()
@@ -52,11 +42,27 @@ local function pasteLink(name, isAlternativeLink)
     end
 end
 
+local function getSite()
+    if IsModifiedClick("SELFCAST") then -- alt
+        return sites.raiderio
+    end
+    
+    if IsModifiedClick("DRESSUP") then -- ctrl
+        return sites.warcraftlogs
+    end
+    
+    if IsModifiedClick("CHATLINK") then -- shift
+        return sites.armory
+    end
+    
+    return sites.wowprogress
+end
+
 local function applicantLink(self, button, down)
     if button == "LeftButton" then
         local applicant = C_LFGList.GetApplicantMemberInfo(self:GetParent().applicantID, self.memberIdx)
 
-        pasteLink(applicant, IsModifiedClick("SELFCAST"))
+        pasteLink(applicant, getSite())
     end
 end
 
@@ -65,36 +71,30 @@ local function leaderLink(self, button, down)
         local results = {C_LFGList.GetSearchResultInfo(self.resultID)}
         local leader = results[13]
 
-        pasteLink(leader, IsModifiedClick("SELFCAST"))
+        pasteLink(leader, getSite())
+    end
+end
+
+local function mouseoverLink(site)
+    if UnitIsPlayer("mouseover") then
+        local name, realm = UnitFullName("mouseover")
+        
+        if realm then
+            pasteLink(name .. "-" .. realm, site)
+        else
+            pasteLink(name, site)
+        end    
+    else
+        print(addonName .. ": Unit is not a player or not in range.")
     end
 end
 
 function WoWProgressLink()
-    if UnitIsPlayer("mouseover") then
-        local name, realm = UnitFullName("mouseover")
-        
-        if realm then
-            pasteLink(name .. "-" .. realm)
-        else
-            pasteLink(name)
-        end    
-    else
-        print(addonName .. ": Unit is not a player or not in range.")
-    end     
+    mouseoverLink(sites.wowprogress)
 end
 
 function RaiderIOLink()
-    if UnitIsPlayer("mouseover") then
-        local name, realm = UnitFullName("mouseover")
-        
-        if realm then
-            pasteLink(name .. "-" .. realm, true)
-        else
-            pasteLink(name, true)
-        end    
-    else
-        print(addonName .. ": Unit is not a player or not in range.")
-    end     
+    mouseoverLink(sites.raiderio)
 end
 
 local function setHook(button, hook)

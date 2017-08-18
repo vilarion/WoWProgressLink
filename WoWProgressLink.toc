@@ -1,10 +1,12 @@
 ## Interface: 70200
 ## Title: WoWProgressLink
-## Notes: Get WoWProgress Link for LFG tool group candidates, group leaders and arbitrary players
+## Notes: Get progress links for LFG tool group candidates, group leaders and arbitrary players
 ## Author: Shadokugel
-## Version: 1.14
+## Version: 1.19
 ## SavedVariables: WOWPROGRESSLINK_CONFIG
 
+sites.lua
+filters.lua
 realmTranslation.lua
 Widgets.lua
 WoWProgressLink.lua

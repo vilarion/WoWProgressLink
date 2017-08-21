@@ -1,12 +1,12 @@
 <Bindings>
-    <Binding name="ARMORYLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK">
-        RaiderIOLink()
+    <Binding name="ARMORYLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-A">
+        ArmoryLink()
     </Binding>
     <Binding name="RAIDERIOLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-R">
         RaiderIOLink()
     </Binding>
-    <Binding name="WARCRAFTLOGSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK">
-        RaiderIOLink()
+    <Binding name="WARCRAFTLOGSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-L">
+        WarcraftLogsLink()
     </Binding>
     <Binding name="WOWPROGRESSLINK" category="BINDING_CATEGORY_WOWPROGRESSLINK" default="ALT-CTRL-P">
         WoWProgressLink()

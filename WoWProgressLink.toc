@@ -2,7 +2,7 @@
 ## Title: WoWProgressLink
 ## Notes: Get progress links for LFG tool group candidates, group leaders and arbitrary players
 ## Author: Shadokugel
-## Version: 1.19
+## Version: 1.20
 ## SavedVariables: WOWPROGRESSLINK_CONFIG
 
 sites.lua

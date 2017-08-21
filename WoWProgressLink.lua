@@ -89,8 +89,16 @@ local function mouseoverLink(site)
     end
 end
 
+function ArmoryLink()
+    mouseoverLink(sites.armory)
+end
+
 function WoWProgressLink()
     mouseoverLink(sites.wowprogress)
+end
+
+function WarcraftLogsLink()
+    mouseoverLink(sites.warcraftlogs)
 end
 
 function RaiderIOLink()

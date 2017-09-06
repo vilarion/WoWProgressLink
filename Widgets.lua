@@ -23,6 +23,7 @@ end
 
 StaticPopupDialogs["WOWPROGRESSLINK"] = {
     text = "Ctrl-C to copy your link, Escape to close",
+    button1 = "Close",
     hasEditBox = true,
     editBoxWidth = 500,
     OnShow = function(self)

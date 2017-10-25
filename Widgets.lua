@@ -21,12 +21,14 @@ function addonData:addCheckButton(parent, x, y, text)
 	return button;
 end
 
-StaticPopupDialogs["WOWPROGRESSLINK"] = {
+addonData.popup = {
     text = "Ctrl-C to copy your link, Escape to close",
     button1 = "Close",
     hasEditBox = true,
     editBoxWidth = 500,
+    maxLetters = 0,
     OnShow = function(self)
+        self.editBox:SetMaxLetters(0)
         self.editBox:SetText(self.data)
         self.editBox:HighlightText()
     end,
@@ -37,3 +39,4 @@ StaticPopupDialogs["WOWPROGRESSLINK"] = {
     whileDead = true,
     hideOnEscape = true
 }
+StaticPopupDialogs["WOWPROGRESSLINK"] = addonData.popup

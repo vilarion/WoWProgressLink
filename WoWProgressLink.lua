@@ -38,6 +38,7 @@ local function pasteLink(name, site)
         editBox:SetText(link)
         editBox:HighlightText()
     else
+        StaticPopupDialogs["WOWPROGRESSLINK"] = addonData.popup
         StaticPopup_Show("WOWPROGRESSLINK", nil, nil, link)
     end
 end

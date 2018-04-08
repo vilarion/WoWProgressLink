@@ -8,10 +8,10 @@ function addonData:addFontString(parent, x, y, font, text)
     label:SetText(text)
 end
 
-local counter = 0
+local cbCounter = 0
 function addonData:addCheckButton(parent, x, y, text)
-    counter = counter + 1
-	local button = CreateFrame("CheckButton", "WPLCheckButton" .. counter, parent, "ChatConfigCheckButtonTemplate")
+    cbCounter = cbCounter + 1
+	local button = CreateFrame("CheckButton", "WPLCheckButton" .. cbCounter, parent, "ChatConfigCheckButtonTemplate")
 	button:SetPoint("TOPLEFT", x, y)
 	
 	local buttonText = getglobal(button:GetName() .. 'Text')
@@ -19,6 +19,40 @@ function addonData:addCheckButton(parent, x, y, text)
     buttonText:SetPoint("TOPLEFT", 27, -7)
 
 	return button;
+end
+
+local ddmCounter = 0
+function addonData:addDropDownMenu(parent, x, y, width, items, checked)
+    ddmCounter = ddmCounter + 1
+    local dropDown = CreateFrame("Frame", "WPLDropDownMenu" .. ddmCounter, parent, "UIDropDownMenuTemplate")
+    dropDown:SetPoint("TOPLEFT", x, y)
+    UIDropDownMenu_SetWidth(dropDown, width)
+    
+    local function onClick(self, arg1, arg2, check)
+        UIDropDownMenu_SetText(dropDown, items[arg1])
+        
+        for k,v in pairs(items) do
+            checked[k] = arg1 == k
+        end
+    end
+
+    local function menu(frame, level, menuList)
+        local info = UIDropDownMenu_CreateInfo()
+        info.func = onClick
+        
+        for k,v in pairs(items) do
+            info.value, info.arg1, info.text, info.checked = k, k, v, checked[k]
+            UIDropDownMenu_AddButton(info)
+            
+            if checked[k] then
+                UIDropDownMenu_SetText(dropDown, items[k])
+            end
+        end
+    end
+
+    UIDropDownMenu_Initialize(dropDown, menu)
+
+	return dropDown;
 end
 
 addonData.popup = {

@@ -17,22 +17,16 @@ configPanel.name = addonName
 InterfaceOptions_AddCategory(configPanel)
 
 addonData:addFontString(configPanel, 16, -16, "GameFontNormalLarge", addonName)
-addonData:addFontString(configPanel, 16, -48, "GameFontHighlight", "Link is shown in:")
+addonData:addFontString(configPanel, 16, -48, "GameFontNormal", "Link Display")
 
-local buttonChat = addonData:addCheckButton(configPanel, 110, -41, "Chat Input Box")
-local buttonPopup = addonData:addCheckButton(configPanel, 110, -66, "Popup Window")
-
-buttonChat:SetScript("OnClick", function()
-    buttonPopup:SetChecked(not buttonChat:GetChecked())
-end)
-
-buttonPopup:SetScript("OnClick", function()
-    buttonChat:SetChecked(not buttonPopup:GetChecked())
-end)
+local linkModes = {[popupMode] = "Popup Window", [chatMode] = "Chat Input Box"}
+local linkChecked = {[popupMode] = not addonData:isChatMode(), [chatMode] = addonData:isChatMode()}
+local dropDownLinkStyle = addonData:addDropDownMenu(configPanel, 10, -70, 150, linkModes, linkChecked)
 
 configPanel:SetScript("OnShow", function()
-    buttonChat:SetChecked(addonData:isChatMode())
-    buttonPopup:SetChecked(not addonData:isChatMode())
+    linkChecked[popupMode] = not addonData:isChatMode()
+    linkChecked[chatMode] = addonData:isChatMode()
+    UIDropDownMenu_SetText(dropDownLinkStyle, linkModes[WOWPROGRESSLINK_CONFIG.linkDisplayMode])
 end)
 
 configPanel:RegisterEvent("ADDON_LOADED")
@@ -42,17 +36,15 @@ configPanel:SetScript("OnEvent", function(event, arg1)
         WOWPROGRESSLINK_CONFIG = WOWPROGRESSLINK_CONFIG or {}
         local conf = WOWPROGRESSLINK_CONFIG
         conf.linkDisplayMode = conf.linkDisplayMode or chatMode
-        
-        buttonChat:SetChecked(addonData:isChatMode())
-        buttonPopup:SetChecked(not addonData:isChatMode())
     end    
 end)
 
 function configPanel:okay()
-    WOWPROGRESSLINK_CONFIG.linkDisplayMode = buttonChat:GetChecked() and chatMode or popupMode
+    WOWPROGRESSLINK_CONFIG.linkDisplayMode = linkChecked[popupMode] and popupMode or chatMode
 end
 
 function configPanel:default()
-    buttonChat:SetChecked(false)
-    buttonPopup:SetChecked(true)
+    linkChecked[popupMode] = true
+    linkChecked[chatMode] = false
+    UIDropDownMenu_SetText(dropDownLinkStyle, linkModes[popupMode])
 end

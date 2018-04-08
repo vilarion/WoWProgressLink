@@ -8,7 +8,7 @@ BINDING_NAME_WARCRAFTLOGSLINK = "Warcraft Logs link (mouseover)"
 
 local function getRegion()
     local regionLabel = {"us", "kr", "eu", "tw", "cn"}
-    local regionId = GetCurrentRegion()
+    local regionId = addonData:getRegion()
     return regionLabel[regionId]
 end
 
